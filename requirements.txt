@@ -1,6 +1,8 @@
 certifi==2023.5.7
 charset-normalizer==3.1.0
+colorama==0.4.6
 idna==3.4
+pyfiglet==0.8.post1
 requests==2.31.0
 sockets==1.0.0
 urllib3==2.0.3
