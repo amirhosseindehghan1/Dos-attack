@@ -1,5 +1,4 @@
 import random
-import time
 
 import pyfiglet
 from colorama import Fore
@@ -28,11 +27,110 @@ def GetuserAgent():
 
 
 
-def ShowStartMessage():
-    """This Function Print Starter Message to user"""
-    fig = pyfiglet.Figlet()
+   
 
-    SuggestedFont = ["ripper!_", "fbr_stri", "ugalympi", "stencil1", "nancyj-fancy", "nancyj-fancy", "alligator2", "speed", "ucf_fan_"]
+class StartSimpleCLI:
+    """
+    Provide a Simple and minimal CLI to interact with program
+    """
+    
+    VALID_COMMANDS = {
+        "1": "DOS attack",
+        "2":"contributors list",
+        "3":"github repo",
+        "?": "help"
+    }
 
-    msg = "DOS ATTACKER"
-    pyfiglet.print_figlet(text=msg, font=random.choice(fig.getFonts()), colors="GREEN")
+
+
+    def __init__(self):
+        pass
+
+
+    def GetSite(self):
+        site = input("correct format: https://www.example.com\nsite: ")        
+        if "https://" in site :
+            pass
+        elif not "https://" in site :
+            site = f"https://{site}"
+        elif "http://" in site :
+            site = site.replace("http://","https://")
+        return site
+    
+    def ShowLogo(self):
+        """This Method Show Starter Logo in cli"""
+        
+        fig = pyfiglet.Figlet()
+        SuggestedFont = ["ripper!_", "fbr_stri", "ugalympi", "stencil1", "nancyj-fancy", "nancyj-fancy", "alligator2", "speed", "ucf_fan_"]
+    
+        Message = "DOS ATTACKER"
+        font = random.choice(SuggestedFont)
+        pyfiglet.print_figlet(text=Message, font="speed", colors="GREEN")
+        print(f"\n{Fore.RED}Repo: https://github.com/amirhosseindehghan1/Dos-attack{Fore.WHITE}\n")
+
+    def Start(self):
+        self.ShowLogo()
+        self.Show_Help()
+        site = self.GetInputAndCountibue()
+        return site
+
+    def GetInputAndCountibue(self):
+        while 1:
+            x = input(": ")
+            if x not in self.VALID_COMMANDS:
+                self.Invalid_Command()
+                self.Show_Help()
+                continue
+            else:
+                match x:
+                    case "1":
+                        site = self.GetSite()
+                        return site
+                    case "2":
+                        self.Show_Contributors_List()
+                        continue
+                    case "3":
+                        self.Show_Github_Repo()
+                        continue
+                    case "?":
+                        self.Show_Help()
+                        continue
+                    case _:
+                        self.Invalid_Command()
+                        self.Show_Help()
+                        continue
+
+
+
+    def Show_Github_Repo(self):
+        print(f"\n{Fore.RED}Repo: https://github.com/amirhosseindehghan1/Dos-attack{Fore.WHITE}\n")
+
+
+    def Invalid_Command(self):
+        print(f"{Fore.RED}Invalid Command!{Fore.WHITE}")
+
+
+    def Show_Help(self):
+        commands = (
+        f"""{Fore.BLUE}commands{Fore.WHITE}:
+        1. DOS Attack
+        2. contributors List
+        3. Github Repo
+        ?. Help
+        """)
+        print(commands)
+    
+
+    def Show_Contributors_List(self):
+        # don't forget to add your info to contributors_info
+        contributors_info = [
+            {
+                "name": "Ali Sharirfy",
+                "github": "https://github.com/alisharify7"
+            },
+        ]
+        print("DOS ATTACKER contributors list")
+        for index,value in enumerate(contributors_info):
+            print(f"""  {index+1}:{value["name"]}\n\t-{value["github"]}""")
+
+  
