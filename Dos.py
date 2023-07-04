@@ -3,45 +3,27 @@ import sys
 import requests
 import http_status_code
 import multiprocessing
-
 from threading import Thread
-from utils import ShowStartMessage, GetuserAgent
+from utils import StartSimpleCLI, GetuserAgent
 
 
-
-
-ShowStartMessage()
+CLI = StartSimpleCLI()
+site = CLI.Start()
 user_random = GetuserAgent()
-
 index = 1
-
-print("Enter Site Address\n in format of https://example.com")
-site = input(": ")
-
-if "https://" in site :
-    pass
-elif not "https://" in site :
-    site = f"https://{site}"
-elif "http://" in site :
-    site = site.replace("http://","https://")
-
-
 
 
 def SendRequest():
     """This Function send request to address"""
     global index, RequestNumber
-    print(index >= RequestNumber)
 
     if index >= RequestNumber:
         sys.exit("All Requests send successfully :)")
-
         return
-
 
     req = requests.get(site, headers=user_random)
 
-    print(f'[INFO] REQUEST NUMBER {index} [{req}] ')
+    print(f'[INFO] REQUEST NUMBER {index} [{req.status_code}] ')
 
     if req.status_code == http_status_code.HTTP_429_TOO_MANY_REQUESTS:
         print("Too Many Requests (Request Blocked by anti ddos) [Code : 429]")
@@ -57,7 +39,7 @@ def SendRequest():
 
 def site_checking():
     """
-        This Function Check Site is AVAILABLE or not
+    This Function Check a Site is AVAILABLE or not
     """
     global site
 
@@ -67,7 +49,7 @@ def site_checking():
 
         match statusCode:
             case 200:
-                print(f"[OK] Success address is valid starting... [Code : 200]")
+                print(f"[OK] Address is up and server return 200 response... [Code : 200]")
 
             case http_status_code.HTTP_400_BAD_REQUEST:
                 print("Bad Request [Code : 400]")
@@ -126,9 +108,7 @@ if not TreadNumber:
 
 print(f"Number of Treads: {TreadNumber}")
 
-
 for i in range(TreadNumber):
     newTread = Thread(target=SendRequest)
     newTread.start()
 
-# time.sleep(RUNTIME)
